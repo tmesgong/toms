@@ -1,0 +1,66 @@
+<!DOCTYPE  html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+  <!-- CSS only -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+<!-- JS, Popper.js, and jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+    <title>老师</title>
+</head>
+<body>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page">主页</li>
+        <li class="breadcrumb-item"><a th:href="@{/teacher/requisition_add}">请购教材</a></li>
+    </ol>
+</nav>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">请购单号</th>
+        <th scope="col">请购单审核状态</th>
+        <th scope="col">领取状态</th>
+        <th scope="col">申请时间</th>
+        <th scope="col">领取时间</th>
+        <th scope="col">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="buyingRequisition : ${buyingRequisitions}">
+        <th scope="row" th:text="${buyingRequisition.rno}"></th>
+        <td th:text="${buyingRequisition.auditStatus == 0}? '未审核':'审核通过'">Mark</td>
+        <th:block th:switch="${buyingRequisition.getStatus}">
+            <td th:case="0">不可领取</td>
+            <td th:case="1">可领取</td>
+<!--            <td th:case="2">已验证领取单</td>-->
+            <td th:case="2">已领取</td>
+        </th:block>
+        <td th:text="${#dates.format(buyingRequisition.applicationDate, 'yyyy-MM-dd')}">@mdo</td>
+        <td th:text="${buyingRequisition.getBookDate == null}?'未领取':${#dates.format(buyingRequisition.getBookDate, 'yyyy-MM-dd')}"></td>
+        <td><a th:href="@{/teacher/requisition_info(rno=${buyingRequisition.rno})}">查看详情</a></td>
+    </tr>
+    </tbody>
+</table>
+
+
+
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+<script>
+
+</script>
+</body>
+</html>
